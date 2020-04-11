@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // Components
 import Images from './Images';
+import Media from '@components/media';
 
 // Context
 import RedditContext from '@context/RedditContext';
@@ -51,8 +52,6 @@ const Details = () => {
     }
   }, [redditThread]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(thread);
-
   return (
     <div className="thread-details">
       {loading && <div className="loading-state">Loading...</div>}
@@ -92,8 +91,10 @@ const Details = () => {
 
                 <div className="thread-content">
                   {thread.selftext && <p>{thread.selftext}</p>}
-
-                  {thread.domain &&
+                  {thread.post_hint !== 'self' && (
+                    <Media.Render thread={thread} />
+                  )}
+                  {/* {thread.domain &&
                     !['i.redd.it', 'gfycat.com'].includes(thread.domain) && (
                       <a
                         href={thread.url}
@@ -113,8 +114,8 @@ const Details = () => {
                           images={thread.preview.images}
                           alt={thread.title}
                         />
-                      </div>
-                    )}
+                      </div> */}
+                  {/* )} */}
                 </div>
               </div>
 
