@@ -1,5 +1,11 @@
 .thread-list {
-  .thread-list-link {
-    color: #363636;
+  .thread-container {
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.active {
+      background-color: #f5f5f5;
+    }
   }
 }

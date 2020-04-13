@@ -16,11 +16,16 @@ const List = () => {
 
   // Loading state
   const [loading, setLoading] = useState(true);
+
+  // List of threads
   const [threads, setThreads] = useState([]);
+
+  // After
+  const [after, setAfter] = useState('');
 
   // Setup the fetching of thread list
   const [redditThreads, getRedditThreads] = useFetch(
-    `https://www.reddit.com/r/all/best.json`
+    `https://www.reddit.com/r/all/best.json${after ? '?after=' + after : ''}`
   );
 
   // This will only run once the component is loaded.
@@ -45,6 +50,9 @@ const List = () => {
         // Set the first from the list
         redditContext.setThread(data.data.children[0].data.permalink);
       }
+
+      // Set the next page
+      setAfter(data.data.after);
     }
   }, [redditThreads]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -57,7 +65,9 @@ const List = () => {
           const { data } = thread;
           return (
             <div
-              className="thread-container"
+              className={`thread-container${
+                redditContext.thread === data.permalink ? ' active' : ''
+              }`}
               key={index}
               onClick={() => {
                 redditContext.setThread(data.permalink);

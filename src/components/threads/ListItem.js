@@ -3,6 +3,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ListItem = ({ thread }) => {
+  const renderThumbnail = () => {
+    // No content?
+    if (!thread.thumbnail) {
+      return false;
+    }
+
+    // Default render
+    if (!['default', 'self', 'nsfw', 'image'].includes(thread.thumbnail)) {
+      return (
+        <p className="image is-64x64">
+          <img src={thread.thumbnail} alt={thread.title} />
+        </p>
+      );
+    }
+
+    // Image
+    if (thread.thumbnail === 'image') {
+      // Get the image from the previews
+      const imagePreview = thread.preview.images[0].source.url;
+      const imageUrl = imagePreview.replace(/(&amp;)/gm, '&');
+
+      return (
+        <p className="image is-64x64">
+          <img src={imageUrl} alt={thread.title} />
+        </p>
+      );
+    }
+
+    // NSFW
+    if (thread.thumbnail === 'nsfw') {
+      return <span className="tag is-danger">NSFW</span>;
+    }
+  };
+
   return (
     <div className="thread-list-item" style={{ padding: '1rem 0.5rem' }}>
       <div
@@ -54,11 +88,7 @@ const ListItem = ({ thread }) => {
         </div>
 
         <div className="media-right" style={{ alignSelf: 'flex-start' }}>
-          {thread.thumbnail && !['default', 'self'].includes(thread.thumbnail) && (
-            <p className="image is-64x64">
-              <img src={thread.thumbnail} alt={thread.title} />
-            </p>
-          )}
+          {renderThumbnail()}
         </div>
       </div>
     </div>
