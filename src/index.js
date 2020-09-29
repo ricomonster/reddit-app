@@ -1,24 +1,12 @@
-// Dependencies
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// Context
-import { RedditProvider } from '@context/RedditContext';
-
-// Pages
-import App from '@pages/app';
-
-// Service Worker
+import './index.css';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-// Stylesheet
-import '@assets/scss/index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <RedditProvider>
-      <App />
-    </RedditProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
